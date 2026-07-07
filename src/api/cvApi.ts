@@ -33,8 +33,9 @@ export const updateCv = async (id: number, cv: CreateCvDto): Promise<void> => {
 };
 
 // Download CV as PDF
-export const downloadCvPdf = async (id: number): Promise<void> => {
+export const downloadCvPdf = async (id: number, template: string): Promise<void> => {
   const response = await api.get(`/cv/${id}/pdf`, {
+    params: { template },
     responseType: 'blob',
   });
 

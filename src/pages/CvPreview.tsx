@@ -33,7 +33,7 @@ return (
       <button onClick={() => setTemplate('modern')} className={template === 'modern' ? 'btn btn-primary' : 'btn btn-secondary'}>
         Modèle Moderne
       </button>
-      <button onClick={() => downloadCvPdf(cv.id)} className="btn btn-primary">
+      <button onClick={() => downloadCvPdf(cv.id, template)} className="btn btn-primary">
         Télécharger en PDF
       </button>
     </div>
