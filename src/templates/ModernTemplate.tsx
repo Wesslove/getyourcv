@@ -6,30 +6,34 @@ interface Props {
 
 export function ModernTemplate({ cv }: Props) {
   return (
-    <div style={{ display: 'flex', fontFamily: 'Arial, sans-serif', maxWidth: 800, margin: '0 auto' }}>
+    <div style={{ display: 'flex', fontFamily: "'Inter', Arial, sans-serif", maxWidth: 800, margin: '0 auto', background: 'white' }}>
       {/* Sidebar */}
-      <aside style={{ background: '#2c3e50', color: 'white', padding: 25, width: 250 }}>
-        <h1 style={{ fontSize: 22, marginBottom: 5 }}>{cv.prenom}</h1>
-        <h1 style={{ fontSize: 22, marginBottom: 20 }}>{cv.nom}</h1>
+      <aside style={{ background: '#12233a', color: '#f7f5ef', padding: 28, width: 260 }}>
+       <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 2, color: '#f7f5ef' }}>{cv.prenom}</h1>
+<h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 20, color: '#f7f5ef' }}>{cv.nom}</h1>
 
-        <div style={{ fontSize: 13, marginBottom: 25 }}>
-          <p>{cv.email}</p>
-          <p>{cv.telephone}</p>
-          <p>{cv.adresse}</p>
+        <div style={{ height: 2, background: '#d9a441', width: 40, marginBottom: 20 }} />
+
+        <div style={{ fontSize: 12, marginBottom: 28, fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8, opacity: 0.85 }}>
+          <p style={{ margin: 0 }}>{cv.email}</p>
+          <p style={{ margin: 0 }}>{cv.telephone}</p>
+          <p style={{ margin: 0 }}>{cv.adresse}</p>
         </div>
 
         {cv.competences.length > 0 && (
           <div>
-            <h3 style={{ borderBottom: '1px solid #7f8c8d', paddingBottom: 5 }}>Compétences</h3>
+            <h3 style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#d9a441', borderBottom: '1px solid rgba(247,245,239,0.2)', paddingBottom: 6, marginBottom: 14 }}>
+              Compétences
+            </h3>
             {cv.competences.map((comp) => (
-              <div key={comp.id} style={{ marginBottom: 10 }}>
-                <p style={{ fontSize: 13, marginBottom: 3 }}>{comp.nom}</p>
-                <div style={{ background: '#7f8c8d', height: 5, borderRadius: 3 }}>
+              <div key={comp.id} style={{ marginBottom: 12 }}>
+                <p style={{ fontSize: 13, marginBottom: 4 }}>{comp.nom}</p>
+                <div style={{ background: 'rgba(247,245,239,0.15)', height: 4, borderRadius: 2 }}>
                   <div
                     style={{
-                      background: '#3498db',
-                      height: 5,
-                      borderRadius: 3,
+                      background: '#d9a441',
+                      height: 4,
+                      borderRadius: 2,
                       width: `${(comp.niveau / 5) * 100}%`,
                     }}
                   />
@@ -41,17 +45,19 @@ export function ModernTemplate({ cv }: Props) {
       </aside>
 
       {/* Contenu principal */}
-      <main style={{ padding: 25, flex: 1 }}>
+      <main style={{ padding: 28, flex: 1 }}>
         {cv.experiences.length > 0 && (
-          <section style={{ marginBottom: 25 }}>
-            <h2 style={{ color: '#2c3e50' }}>Expériences</h2>
+          <section style={{ marginBottom: 28 }}>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 16, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#1f4e79', marginBottom: 14 }}>
+              Expériences
+            </h2>
             {cv.experiences.map((exp) => (
-              <div key={exp.id} style={{ marginBottom: 15, borderLeft: '3px solid #3498db', paddingLeft: 12 }}>
-                <strong>{exp.poste}</strong>
-                <p style={{ fontSize: 13, color: '#7f8c8d' }}>
-                  {exp.entreprise} • {exp.dateDebut} - {exp.enCours ? 'En cours' : exp.dateFin}
+              <div key={exp.id} style={{ marginBottom: 16, borderLeft: '3px solid #d9a441', paddingLeft: 14 }}>
+                <strong style={{ color: '#12233a', fontSize: 15 }}>{exp.poste}</strong>
+                <p style={{ fontSize: 12, color: '#6b7280', fontFamily: "'JetBrains Mono', monospace", margin: '2px 0 6px' }}>
+                  {exp.entreprise} · {exp.dateDebut} → {exp.enCours ? 'En cours' : exp.dateFin}
                 </p>
-                <p style={{ fontSize: 14 }}>{exp.description}</p>
+                <p style={{ fontSize: 14, color: '#374151', margin: 0 }}>{exp.description}</p>
               </div>
             ))}
           </section>
@@ -59,12 +65,14 @@ export function ModernTemplate({ cv }: Props) {
 
         {cv.formations.length > 0 && (
           <section>
-            <h2 style={{ color: '#2c3e50' }}>Formations</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 16, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#1f4e79', marginBottom: 14 }}>
+              Formations
+            </h2>
             {cv.formations.map((formation) => (
-              <div key={formation.id} style={{ marginBottom: 15, borderLeft: '3px solid #3498db', paddingLeft: 12 }}>
-                <strong>{formation.diplome}</strong>
-                <p style={{ fontSize: 13, color: '#7f8c8d' }}>
-                  {formation.etablissement} • {formation.dateDebut} - {formation.enCours ? 'En cours' : formation.dateFin}
+              <div key={formation.id} style={{ marginBottom: 16, borderLeft: '3px solid #d9a441', paddingLeft: 14 }}>
+                <strong style={{ color: '#12233a', fontSize: 15 }}>{formation.diplome}</strong>
+                <p style={{ fontSize: 12, color: '#6b7280', fontFamily: "'JetBrains Mono', monospace", margin: '2px 0 0' }}>
+                  {formation.etablissement} · {formation.dateDebut} → {formation.enCours ? 'En cours' : formation.dateFin}
                 </p>
               </div>
             ))}
