@@ -31,6 +31,7 @@ export interface CvDto {
   adresse: string;
   email: string;
   telephone: string;
+  photoUrl?: string;
   experiences: ExperienceDto[];
   formations: FormationDto[];
   competences: CompetenceDto[];

@@ -32,6 +32,15 @@ export const updateCv = async (id: number, cv: CreateCvDto): Promise<void> => {
   await api.put(`/cv/${id}`, cv);
 };
 
+export const uploadCvPhoto = async (id: number, file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await api.post<{ photoUrl: string }>(`/cv/${id}/photo`, formData);
+
+  return response.data.photoUrl;
+};
+
 // Download CV as PDF
 export const downloadCvPdf = async (id: number, template: string): Promise<void> => {
   const response = await api.get(`/cv/${id}/pdf`, {

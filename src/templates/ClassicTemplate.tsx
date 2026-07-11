@@ -7,9 +7,14 @@ interface Props {
 export function ClassicTemplate({ cv }: Props) {
   return (
     <div style={{ fontFamily: "'Inter', Arial, sans-serif", padding: 40, maxWidth: 700, margin: '0 auto', background: 'white' }}>
-      <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, marginBottom: 4, color: '#12233a' }}>
-        {cv.prenom} {cv.nom}
-      </h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
+        {cv.photoUrl && (
+          <img src={cv.photoUrl} alt="Photo" style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8, border: '1px solid #d1d5db' }} />
+        )}
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, margin: 0, color: '#12233a' }}>
+          {cv.prenom} {cv.nom}
+        </h1>
+      </div>
       {cv.resume && (
         <p style={{ fontStyle: 'italic', color: '#374151', marginTop: 8 }}>{cv.resume}</p>
       )}

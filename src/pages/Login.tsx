@@ -10,19 +10,25 @@ export function Login() {
   const [erreur, setErreur] = useState('');
   const { login: setAuthToken } = useAuth();
   const navigate = useNavigate();
+  const [envoiEncours, setEnvoiEncours] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErreur('');
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setErreur('');
 
-    try {
-      const token = await login({ email, motDePasse });
-      setAuthToken(token);
-      navigate('/cvs');
-    } catch (err) {
-      setErreur('Email ou mot de passe incorrect.');
-    }
-  };
+  if (envoiEncours) return;
+  setEnvoiEncours(true);
+
+  try {
+    const token = await login({ email, motDePasse });
+    setAuthToken(token);
+    navigate('/cvs');
+  } catch (err) {
+    setErreur('Email ou mot de passe incorrect.');
+  } finally {
+    setEnvoiEncours(false);
+  }
+};
 
  return (
   <div className="page">
@@ -52,7 +58,9 @@ export function Login() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">Se connecter</button>
+        <button type="submit" className="btn btn-primary" disabled={envoiEncours}>
+          {envoiEncours ? 'Connexion en cours...' : 'Se connecter'}
+        </button>
         <p style={{ marginTop: 16, fontSize: 14 }}>
           Pas encore de compte ? <Link to="/register">Créer un compte</Link>
         </p>

@@ -6,9 +6,12 @@ interface Props {
 
 export function ModernTemplate({ cv }: Props) {
   return (
-    <div style={{ display: 'flex', fontFamily: "'Inter', Arial, sans-serif", maxWidth: 800, margin: '0 auto', background: 'white' }}>
+    <div className="modern-cv" style={{ fontFamily: "'Inter', Arial, sans-serif", maxWidth: 800, margin: '0 auto', background: 'white' }}>
       {/* Sidebar */}
-      <aside style={{ background: '#12233a', color: '#f7f5ef', padding: 28, width: 260 }}>
+      <aside className="modern-cv-sidebar">
+        {cv.photoUrl && (
+          <img src={cv.photoUrl} alt="Photo" style={{ width: '100%', borderRadius: 8, marginBottom: 20, objectFit: 'cover', aspectRatio: '1 / 1' }} />
+        )}
         <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 2, color: '#f7f5ef' }}>{cv.prenom}</h1>
         <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 20, color: '#f7f5ef' }}>{cv.nom}</h1>
 

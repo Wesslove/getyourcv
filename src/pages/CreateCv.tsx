@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createCv } from '../api/cvApi';
+import { createCv, uploadCvPhoto } from '../api/cvApi';
 import type { CreateCvDto } from '../types/cv';
 
 type Experience = CreateCvDto['experiences'][number];
@@ -26,8 +26,11 @@ export function CreateCv() {
   const [nationalite, setNationalite] = useState('');
   const [permis, setPermis] = useState('');
   const [resume, setResume] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadError, setUploadError] = useState('');
 
   const [langues, setLangues] = useState < CreateCvDto['langues'] > ([]);
+  const [envoiEncours, setenvoiEncours] = useState(false);
 
   // --- Expériences ---
   const ajouterExperience = () => {
@@ -98,9 +101,13 @@ export function CreateCv() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErreur('');
+    setUploadError('');
+
+      if (envoiEncours) return; // sécurité supplémentaire
+  setenvoiEncours(true);
 
     try {
-      await createCv({
+      const createdCv = await createCv({
         nom,
         prenom,
         dateNaissance,
@@ -117,9 +124,16 @@ export function CreateCv() {
         resume,
         langues,
       });
-      navigate('/cvs');
+
+      if (selectedFile) {
+        await uploadCvPhoto(createdCv.id, selectedFile);
+      }
+
+   navigate('/cvs');
     } catch (err) {
       setErreur('Erreur lors de la création du CV.');
+    } finally {
+      setenvoiEncours(false);
     }
   };
 
@@ -154,6 +168,18 @@ export function CreateCv() {
           <div className="form-group">
             <label>Téléphone</label>
             <input value={telephone} onChange={(e) => setTelephone(e.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label>Photo du CV (facultatif)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
+            />
+            {uploadError && <p className="error-message">{uploadError}</p>}
+            <p style={{ fontSize: 12, color: '#6b7280', marginTop: 6 }}>
+              La photo sera envoyée lors de la création du CV.
+            </p>
           </div>
 
           <div className="form-group">
@@ -287,7 +313,9 @@ export function CreateCv() {
             + Ajouter une langue
           </button>
           <div>
-            <button type="submit" className="btn btn-primary">Créer le CV</button>
+            <button type="submit" className="btn btn-primary" disabled={envoiEncours}>
+                  {envoiEncours ? 'Création en cours...' : 'Créer le CV'}
+            </button>
           </div>
         </form>
       </div>

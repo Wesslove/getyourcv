@@ -65,7 +65,7 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/getyourcv">
         <AppRoutes />
       </BrowserRouter>
     </AuthProvider>

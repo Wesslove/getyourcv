@@ -8,18 +8,24 @@ export function Register() {
   const [motDePasse, setMotDePasse] = useState('');
   const [erreur, setErreur] = useState('');
   const navigate = useNavigate();
+  const [envoiEncours, setEnvoiEncours] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErreur('');
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setErreur('');
 
-    try {
-      await register({ nom, email, motDePasse });
-      navigate('/login');
-    } catch (err) {
-      setErreur("Impossible de créer le compte. L'email est peut-être déjà utilisé.");
-    }
-  };
+  if (envoiEncours) return;
+  setEnvoiEncours(true);
+
+  try {
+    await register({ nom, email, motDePasse });
+    navigate('/login');
+  } catch (err) {
+    setErreur("Impossible de créer le compte. L'email est peut-être déjà utilisé.");
+  } finally {
+    setEnvoiEncours(false);
+  }
+};
 
  return (
   <div className="page">
@@ -59,7 +65,9 @@ export function Register() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">Créer mon compte</button>
+        <button type="submit" className="btn btn-primary" disabled={envoiEncours}>
+          {envoiEncours ? 'Création en cours...' : 'Créer mon compte'}
+        </button>
       </form>
 
       <p style={{ marginTop: 16, fontSize: 14 }}>

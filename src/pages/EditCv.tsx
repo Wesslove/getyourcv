@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCvById, updateCv } from '../api/cvApi';
+import { getCvById, updateCv, uploadCvPhoto } from '../api/cvApi';
 import type { CreateCvDto } from '../types/cv';
 
 type Experience = CreateCvDto['experiences'][number];
@@ -28,6 +28,11 @@ export function EditCv() {
   const [nationalite, setNationalite] = useState('');
   const [permis, setPermis] = useState('');
   const [resume, setResume] = useState('');
+
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadError, setUploadError] = useState('');
+  const [envoiEncours, setenvoiEncours] = useState(false);
 
   const [langues, setLangues] = useState<CreateCvDto['langues']>([]);
 
@@ -63,11 +68,30 @@ export function EditCv() {
         setNationalite(cv.nationalite);
         setPermis(cv.permis);
         setResume(cv.resume);
+        setPhotoUrl(cv.photoUrl ?? null);
         setLangues(cv.langues.map((l) => ({ nom: l.nom, niveau: l.niveau })));
         setChargement(false);
       });
     }
   }, [id]);
+
+  const uploadPhoto = async () => {
+    if (!id || !selectedFile) {
+      setUploadError('Veuillez sélectionner un fichier avant d’envoyer.');
+      return;
+    }
+
+    try {
+      setUploadError('');
+      const uploadedUrl = await uploadCvPhoto(Number(id), selectedFile);
+      setPhotoUrl(uploadedUrl);
+      setSelectedFile(null);
+    } catch (err) {
+      setErreur('Erreur lors de la création du CV.');
+    } finally {
+      setenvoiEncours(false);
+    }
+  };
 
   const modifierExperience = (index: number, champ: keyof Experience, valeur: string) => {
     const copie = [...experiences];
@@ -88,14 +112,17 @@ export function EditCv() {
   };
 
   const modifierLangue = (index: number, champ: 'nom' | 'niveau', valeur: string | number) => {
-  const copie = [...langues];
-  copie[index] = { ...copie[index], [champ]: valeur };
-  setLangues(copie);
-};
+    const copie = [...langues];
+    copie[index] = { ...copie[index], [champ]: valeur };
+    setLangues(copie);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErreur('');
+
+    if (envoiEncours) return; // sécurité supplémentaire
+    setenvoiEncours(true);
 
     try {
       await updateCv(Number(id), {
@@ -108,20 +135,21 @@ export function EditCv() {
         experiences,
         formations,
         competences,
-      situationMatrimoniale,
-      loisirs,
-      nationalite,
-      permis,
-      resume,
-      langues,
+        situationMatrimoniale,
+        loisirs,
+        nationalite,
+        permis,
+        resume,
+        langues,
       });
+
       navigate('/cvs');
     } catch (err) {
       setErreur('Erreur lors de la modification du CV.');
+    } finally {
+      setenvoiEncours(false);
     }
   };
-
-
 
   if (chargement) return <p>Chargement...</p>;
 
@@ -157,7 +185,24 @@ return (
             <label>Téléphone</label>
             <input value={telephone} onChange={(e) => setTelephone(e.target.value)} required />
           </div>
-            <div className="form-group">
+          <div className="form-group">
+            <label>Photo du CV</label>
+            {photoUrl && (
+              <div style={{ marginBottom: 10 }}>
+                <img src={photoUrl} alt="Photo du CV" style={{ maxWidth: 150, display: 'block', marginBottom: 10, borderRadius: 8 }} />
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
+            />
+            <button type="button" className="btn btn-secondary" onClick={uploadPhoto} style={{ marginTop: 8 }}>
+              Téléverser la photo
+            </button>
+            {uploadError && <p className="error-message">{uploadError}</p>}
+          </div>
+          <div className="form-group">
             <label>Résumé / Titre professionnel</label>
             <input value={resume} onChange={(e) => setResume(e.target.value)} placeholder="ex: Développeur Full-Stack" />
           </div>
@@ -261,7 +306,9 @@ return (
           ))}
 
           <div>
-            <button type="submit" className="btn btn-primary">Enregistrer les modifications</button>
+            <button type="submit" className="btn btn-primary" disabled={envoiEncours}>
+              {envoiEncours ? 'Enregistrement en cours...' : 'Enregistrer les modifications'}
+            </button>
           </div>
         </form>
       </div>
