@@ -4,6 +4,7 @@ import type { CvDto } from '../types/cv';
 import { ClassicTemplate } from '../templates/ClassicTemplate';
 import { ModernTemplate } from '../templates/ModernTemplate';
 import { getCvById, downloadCvPdf } from '../api/cvApi';
+import { FiArrowLeft, FiDownload } from 'react-icons/fi';
 
 type TemplateKey = 'classic' | 'modern';
 
@@ -27,34 +28,51 @@ export function CvPreview() {
     }
   }, [id]);
 
-  if (chargement) return <p>Chargement...</p>;
-  if (!cv) return <p>CV introuvable.</p>;
+  if (chargement) {
+    return (
+      <div className="dashboard-page dashboard-page--centered">
+        <div className="spinner" role="status" aria-label="Chargement" />
+      </div>
+    );
+  }
+
+  if (!cv) {
+    return (
+      <div className="dashboard-page dashboard-page--centered">
+        <p className="dashboard-loading">CV introuvable.</p>
+      </div>
+    );
+  }
 
   const templateActuel = TEMPLATES.find((t) => t.key === template);
 
   return (
-    <div className="page" style={{ maxWidth: 900 }}>
-      <button onClick={() => navigate('/cvs')} className="btn btn-secondary" style={{ marginBottom: 16 }}>
-        ← Retour à mes CV
-      </button>
-
-      <div className="header-bar">
-        {TEMPLATES.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTemplate(t.key)}
-            className={template === t.key ? 'btn btn-primary' : 'btn btn-secondary'}
-          >
-            {t.label}
-          </button>
-        ))}
-        <button onClick={() => downloadCvPdf(cv.id, template)} className="btn btn-primary">
-          Télécharger en PDF
+    <div className="dashboard-page">
+      <div className="cv-preview-wrap">
+        <button onClick={() => navigate('/cvs')} className="landing-btn landing-btn--ghost cv-preview-back">
+          <FiArrowLeft /> Retour à mes CV
         </button>
-      </div>
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        {templateActuel && <templateActuel.Component cv={cv} />}
+        <div className="cv-preview-toolbar">
+          <div className="cv-preview-tabs">
+            {TEMPLATES.map((t) => (
+              <button
+                key={t.key}
+                onClick={() => setTemplate(t.key)}
+                className={`landing-btn ${template === t.key ? 'landing-btn--primary' : 'landing-btn--ghost'}`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <button onClick={() => downloadCvPdf(cv.id, template)} className="landing-btn landing-btn--primary">
+            <FiDownload /> Télécharger en PDF
+          </button>
+        </div>
+
+        <div className="cv-preview-card">
+          {templateActuel && <templateActuel.Component cv={cv} />}
+        </div>
       </div>
     </div>
   );
