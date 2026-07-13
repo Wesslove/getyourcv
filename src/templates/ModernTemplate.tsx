@@ -6,9 +6,29 @@ interface Props {
 
 export function ModernTemplate({ cv }: Props) {
   return (
-    <div className="modern-cv" style={{ fontFamily: "'Inter', Arial, sans-serif", maxWidth: 800, margin: '0 auto', background: 'white' }}>
+    <div
+      className="modern-cv"
+      style={{
+        fontFamily: "'Inter', Arial, sans-serif",
+        maxWidth: 800,
+        margin: '0 auto',
+        background: 'white',
+        display: 'flex',
+        alignItems: 'stretch',
+      }}
+    >
       {/* Sidebar */}
-      <aside className="modern-cv-sidebar">
+      <aside
+        className="modern-cv-sidebar"
+        style={{
+          background: '#12233a',
+          color: '#f7f5ef',
+          width: 260,
+          flexShrink: 0,
+          padding: 28,
+          boxSizing: 'border-box',
+        }}
+      >
         {cv.photoUrl && (
           <img src={cv.photoUrl} alt="Photo" style={{ width: '100%', borderRadius: 8, marginBottom: 20, objectFit: 'cover', aspectRatio: '1 / 1' }} />
         )}
@@ -17,7 +37,7 @@ export function ModernTemplate({ cv }: Props) {
 
         <div style={{ height: 2, background: '#d9a441', width: 40, marginBottom: 20 }} />
 
-        <div style={{ fontSize: 12, marginBottom: 28, fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8, opacity: 0.85 }}>
+        <div style={{ fontSize: 12, marginBottom: 28, fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8, color: '#f7f5ef', opacity: 0.85 }}>
           <p style={{ margin: 0 }}>{cv.email}</p>
           <p style={{ margin: 0 }}>{cv.telephone}</p>
           <p style={{ margin: 0 }}>{cv.adresse}</p>
@@ -30,7 +50,7 @@ export function ModernTemplate({ cv }: Props) {
             </h3>
             {cv.competences.map((comp) => (
               <div key={comp.id} style={{ marginBottom: 12 }}>
-                <p style={{ fontSize: 13, marginBottom: 4 }}>{comp.nom}</p>
+                <p style={{ fontSize: 13, marginBottom: 4, color: '#f7f5ef' }}>{comp.nom}</p>
                 <div style={{ background: 'rgba(247,245,239,0.15)', height: 4, borderRadius: 2 }}>
                   <div
                     style={{
@@ -53,7 +73,7 @@ export function ModernTemplate({ cv }: Props) {
             </h3>
             {cv.langues.map((langue) => (
               <div key={langue.id} style={{ marginBottom: 12 }}>
-                <p style={{ fontSize: 13, marginBottom: 4 }}>{langue.nom}</p>
+                <p style={{ fontSize: 13, marginBottom: 4, color: '#f7f5ef' }}>{langue.nom}</p>
                 <div style={{ background: 'rgba(247,245,239,0.15)', height: 4, borderRadius: 2 }}>
                   <div
                     style={{
@@ -74,7 +94,7 @@ export function ModernTemplate({ cv }: Props) {
             <h3 style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#d9a441', borderBottom: '1px solid rgba(247,245,239,0.2)', paddingBottom: 6, marginBottom: 14 }}>
               Informations
             </h3>
-            <div style={{ fontSize: 12, lineHeight: 1.8, opacity: 0.9 }}>
+            <div style={{ fontSize: 12, lineHeight: 1.8, color: '#f7f5ef', opacity: 0.9 }}>
               {cv.situationMatrimoniale && <p style={{ margin: 0 }}>{cv.situationMatrimoniale}</p>}
               {cv.nationalite && <p style={{ margin: 0 }}>{cv.nationalite}</p>}
               {cv.permis && <p style={{ margin: 0 }}>Permis {cv.permis}</p>}
@@ -84,7 +104,7 @@ export function ModernTemplate({ cv }: Props) {
       </aside>
 
       {/* Contenu principal */}
-      <main style={{ padding: 28, flex: 1 }}>
+      <main style={{ padding: 28, flex: 1, minWidth: 0 }}>
         {cv.resume && (
           <p style={{ fontStyle: 'italic', color: '#374151', marginBottom: 20, fontSize: 13 }}>{cv.resume}</p>
         )}
