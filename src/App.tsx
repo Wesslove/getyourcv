@@ -8,7 +8,7 @@ import { CreateCv } from './pages/CreateCv';
 import { CvPreview } from './pages/CvPreview';
 import { EditCv } from './pages/EditCv';
 
- import './App.css'
+import './App.css'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { token } = useAuth();
