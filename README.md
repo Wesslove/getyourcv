@@ -1,75 +1,97 @@
-# React + TypeScript + Vite
+# GetYourCV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+  <img src="public/favicon.png" alt="GetYourCV Logo" width="120" />
+  <h3>Une application web pour créer, gérer et exporter des CV professionnels en quelques minutes</h3>
+</div>
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+GetYourCV est une application web moderne développée avec React, TypeScript et Vite pour aider les candidats à créer rapidement un CV clair, structuré et prêt à être envoyé. L’application permet de saisir ses informations, de gérer plusieurs CV, de choisir un modèle visuel et de les prévisualiser avant export.
 
-## React Compiler
+## ✨ Fonctionnalités
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🧾 Création et gestion de CV
+- Créer un CV complet avec vos informations personnelles, expériences, formations, compétences, langues et loisirs.
+- Éditer et supprimer un CV existant depuis une interface simple.
+- Consulter la liste de ses CV dans un tableau de bord.
 
-## Expanding the ESLint configuration
+### 🎨 Modèles de présentation
+- Plusieurs templates de mise en page : classique, moderne et créatif.
+- Prévisualisation avant téléchargement.
+- Interface pensée pour un rendu professionnel et lisible.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 📄 Export et partage
+- Prévisualisation du CV avant l’export.
+- Téléchargement au format PDF.
+- Ajout d’une photo de profil sur le CV.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🔐 Authentification
+- Inscription et connexion utilisateur.
+- Accès protégé aux pages de création, modification et prévisualisation.
+- Session conservée dans le navigateur.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prérequis
+- Node.js 18+
+- npm
 
+### Démarrage rapide
+
+```bash
+# 1. Clonez le dépôt
+git clone https://github.com/gedeon2306/getyourcv.git
+
+# 2. Accédez au répertoire du projet
+cd getyourcv
+
+# 3. Installez les dépendances
+npm install
+
+# 4. Lancez le serveur de développement
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Scripts disponibles
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` : démarre le serveur de développement Vite.
+- `npm run build` : construit l’application pour la production.
+- `npm run lint` : exécute ESLint pour la qualité du code.
+- `npm run preview` : affiche une prévisualisation de la version de production.
+- `npm run deploy` : publie le build sur GitHub Pages.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠 Technologies utilisées
 
+- React 19 : interface utilisateur moderne et réactive.
+- TypeScript : typage statique robuste.
+- Vite : environnement de développement rapide.
+- React Router DOM : navigation entre les pages.
+- React Icons : bibliothèque d’icônes.
+- Axios : communication avec l’API backend.
+- ESLint : qualité et cohérence du code.
+
+## 📂 Structure du projet
+
+```text
+getyourcv/
+├── public/               # fichiers statiques et assets
+├── src/
+│   ├── api/              # appels API et configuration Axios
+│   ├── context/          # contexte d’authentification
+│   ├── pages/            # pages React (login, dashboard, preview...)
+│   ├── templates/        # composants de mise en page du CV
+│   ├── types/            # définitions TypeScript
+│   └── App.tsx           # configuration des routes
+├── package.json          # dépendances et scripts
+└── vite.config.ts       # configuration Vite
 ```
+
+## 🌐 API
+
+L’application consomme une API backend hébergée à l’adresse suivante :
+- https://cvgenerator.somee.com/api
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues. N’hésitez pas à ouvrir une issue ou à proposer une pull request pour toute amélioration.

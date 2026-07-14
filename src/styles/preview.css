@@ -1,0 +1,32 @@
+.cv-preview-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cv-preview-back {
+  margin-bottom: 1.5rem;
+}
+
+.cv-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cv-preview-tabs {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cv-preview-card {
+  background: var(--color-paper);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  animation: landing-fadeUp 0.5s ease forwards;
+}

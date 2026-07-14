@@ -1,16 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Login } from './pages/Login';
+import { LandingPage } from './pages/LandingPage';
 import { Register } from './pages/Register';
 import { CvList } from './pages/CvList';
 import { CreateCv } from './pages/CreateCv';
 import { CvPreview } from './pages/CvPreview';
 import { EditCv } from './pages/EditCv';
 
+import './App.css'
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { token } = useAuth();
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   return <>{children}</>;
 }
@@ -18,6 +21,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route
