@@ -1,0 +1,43 @@
+.delete-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+
+.delete-modal__icon {
+  font-size: 2.5rem;
+  color: var(--color-danger, #e74c3c);
+  margin-bottom: 1rem;
+}
+
+.delete-modal__text {
+  color: var(--color-text-muted, #ccc);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.delete-modal__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.landing-btn--danger {
+  background-color: var(--color-danger, #e74c3c);
+  color: #fff;
+  border: 1px solid var(--color-danger, #e74c3c);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.landing-btn--danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+.landing-btn--danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
