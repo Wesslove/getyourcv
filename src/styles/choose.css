@@ -1,0 +1,64 @@
+.choose-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 32, 28, 0.7);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1000;
+  animation: choose-fade-in 0.2s ease;
+}
+
+.choose-modal {
+  background: var(--color-ink);
+  border: 1px solid var(--color-accent);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+  animation: choose-scale-in 0.25s ease;
+}
+
+.choose-modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+.choose-modal__close:hover {
+  color: var(--color-accent);
+}
+
+@keyframes choose-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes choose-scale-in {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.template-card {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+  display: block;
+}

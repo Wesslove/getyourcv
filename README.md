@@ -78,13 +78,15 @@ getyourcv/
 ├── public/               # fichiers statiques et assets
 ├── src/
 │   ├── api/              # appels API et configuration Axios
+│   ├── components/       # composants reutilisable
 │   ├── context/          # contexte d’authentification
 │   ├── pages/            # pages React (login, dashboard, preview...)
 │   ├── templates/        # composants de mise en page du CV
 │   ├── types/            # définitions TypeScript
+│   ├── Utils/            # Fonctions utilitaires
 │   └── App.tsx           # configuration des routes
 ├── package.json          # dépendances et scripts
-└── vite.config.ts       # configuration Vite
+└── vite.config.ts        # configuration Vite
 ```
 
 ## 🌐 API
