@@ -7,7 +7,7 @@ export type TemplateKey = 'classic' | 'modern' | 'creative';
 interface ChooseProps {
   isOpen: boolean;
   onClose: () => void;
-  id: string | null;
+  id: number | null;
 }
 
 export function ChooseCreate({ isOpen, onClose }: ChooseProps) {

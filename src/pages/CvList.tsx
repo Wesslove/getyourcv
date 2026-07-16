@@ -4,11 +4,11 @@ import type { CvDto } from '../types/cv';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiEye, FiEdit2, FiTrash2, FiLogOut, FiFileText } from 'react-icons/fi';
-// import { FaRegFilePdf } from "react-icons/fa6";
 import logo from '../assets/favicon.png';
 
 import { ChooseCreate } from '../components/Choose';
 import { ChooseEdit } from '../components/Choose';
+import { DeleteCvModal } from '../components/DeleteCvModal';
 
 export function CvList() {
   const [cvs, setCvs] = useState<CvDto[]>([]);
@@ -18,6 +18,12 @@ export function CvList() {
   const [showChooseCreate, setShowChooseCreate] = useState(false);
   const [showChooseEdit, setShowChooseEdit] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
+
+  // États pour la modale de suppression
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteCvId, setDeleteCvId] = useState<number | null>(null);
+  const [deleteCvName, setDeleteCvName] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     chargerCvs();
@@ -34,14 +40,27 @@ export function CvList() {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  // Ouvre la modale de suppression avec les infos du CV ciblé
+  const openDeleteModal = (cv: CvDto) => {
+    setDeleteCvId(cv.id);
+    setDeleteCvName(`${cv.prenom} ${cv.nom}`);
+    setDeleteModalOpen(true);
+  };
+
+  // Confirme la suppression
+  const handleConfirmDelete = async () => {
+    if (deleteCvId === null) return;
+    setDeleteLoading(true);
+    setErreur('');
     try {
-      setErreur('');
-      await deleteCv(id);
+      await deleteCv(deleteCvId);
       await chargerCvs();
+      setDeleteModalOpen(false);
     } catch (err) {
       console.error('Erreur lors de la suppression du CV', err);
       setErreur('La suppression du CV a échoué.');
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -72,6 +91,14 @@ export function CvList() {
 
       <ChooseEdit isOpen={showChooseEdit} onClose={() => setShowChooseEdit(false)} id={editId} />
 
+      <DeleteCvModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        cvName={deleteCvName}
+        isLoading={deleteLoading}
+      />
+
       {erreur && <p className="error-message">{erreur}</p>}
 
       {cvs.length === 0 ? (
@@ -100,7 +127,7 @@ export function CvList() {
                 }} className="cv-action">
                   <FiEdit2 /> Modifier
                 </button>
-                <button onClick={() => handleDelete(cv.id)} className="cv-action cv-action--danger">
+                <button onClick={() => openDeleteModal(cv)} className="cv-action cv-action--danger">
                   <FiTrash2 /> Supprimer
                 </button>
               </div>
